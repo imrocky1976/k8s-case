@@ -1,0 +1,6 @@
+# 从 .properties 文件创建 ConfigMap
+$ kubectl create configmap ui-config --from-file=./ui.properties
+# 查看这个 ConfigMap 里保存的信息 (data)
+$ kubectl get configmaps ui-config -o yaml
+
+# kubectl create secret generic traefik-tls-secret --from-file=ssl.crt --from-file=ssl.key

@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hostnames
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: hostnames
+  template:
+    metadata:
+      labels:
+        app: hostnames
+    spec:
+      initContainers:
+        - image: busybox:1.28.4
+          name: index
+          args:
+            - /bin/sh
+            - -c 
+            - 'echo `hostname` > /app/index.html'
+          volumeMounts:
+            - mountPath: /app
+              name: app-volume
+      containers:
+        - name: nginx-hostnames
+          image: nginx
+          ports:
+            - containerPort: 80
+              name: web
+          volumeMounts:
+            - mountPath: /usr/share/nginx/html
+              name: app-volume
+        - name: tools
+          image: busybox:1.28.4
+          args:
+            - sleep
+            - "86400"
+      volumes:
+        - name: app-volume
+          emptyDir: {}

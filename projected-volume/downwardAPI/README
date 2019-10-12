@@ -1,0 +1,20 @@
+Downward API ，它的作用是：让 Pod 里的容器能够直接获取到这个 Pod API 对象本身的信息。
+
+目前， Downward API 支持的字段已经非常丰富了，比如：
+1. 使用 fieldRef 可以声明使用 :
+    spec.nodeName - 宿主机名字
+    status.hostIP - 宿主机 IP
+    metadata.name - Pod 的名字
+    metadata.namespace - Pod 的 Namespace
+    status.podIP - Pod 的 IP
+    spec.serviceAccountName - Pod 的 Service Account 的名字
+    metadata.uid - Pod 的 UID
+    metadata.labels['<KEY>'] - 指定 <KEY> 的 Label 值
+    metadata.annotations['<KEY>'] - 指定 <KEY> 的 Annotation 值
+    metadata.labels - Pod 的所有 Label
+    metadata.annotations - Pod 的所有 Annotation
+2. 使用 resourceFieldRef 可以声明使用 :
+    容器的 CPU limit
+    容器的 CPU request
+    容器的 memory limit
+    容器的 memory request
