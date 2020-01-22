@@ -1,0 +1,33 @@
+# 对于非 Namespaced （ Non-namespaced ）对象（比如： Node ），或者，某一个 Role 想要作用于所有的 Namespace 的时
+# 候，就必须要使用 ClusterRole 和 ClusterRoleBinding 这两个组合。这两个 API 对象的用法跟 Role 和 RoleBinding 完全一样。只
+# 不过，它们的定义里，没有了 Namespace 字段。
+
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  namespace: default
+  name: example-sa
+---
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: example-clusterrole
+rules:
+  - apiGroups: [""]
+    resources: ["pods"]
+    verbs: ["get", "watch", "list"]
+---
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: example-clusterrolebinding
+subjects:
+#  - kind: User
+#    name: example-user
+  - kind: ServiceAccount
+    name: example-sa
+    apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: ClusterRole
+  name: example-clusterrole
+  apiGroup: rbac.authorization.k8s.io
